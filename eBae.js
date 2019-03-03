@@ -1,49 +1,73 @@
 
-
+var eventid = 3
 var stuff = document.getElementById('racistMF')
 var table = document.getElementById('table1')
-var line1 = table.insertRow(1)
-var item = line1.insertCell()
-
-var button = line1.insertCell()
 var itemsInCart = document.getElementById('numItems')
 var row = document.getElementById('row')
 var items = 0
 
-var cost = line1.insertCell(1)
+
 var manage = row.insertCell(1)
 manage.innerHTML = 'Manage Event' // link to event management page
 
-cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage();"> Create Event </button>'
-button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage();"> Engage in Event </button>'
 
-
-firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
-  clubID = Object.keys(snapshot.val())
-
-  clubEvents = []
-  for (i = 0; i < clubID.length; i++ ){
-    clubEvents.push(Object.values(snapshot.val()[clubID[i]]['events'][1])[0]['event'])
-
+function load(){
+  
+  var x = table.rows.length
+  while (x > 1){
+    table.deleteRow(-1)
+    x = table.rows.length
   }
+  var line1 = table.insertRow(1)
+  var item = line1.insertCell()
 
-  for (i = 0; i< clubEvents.length; i++){
-    var line1 = table.insertRow(1)
-    var item = line1.insertCell()
-    var button = line1.insertCell()
-    var cost = line1.insertCell(1)
+  var button = line1.insertCell()
+  var cost = line1.insertCell(1)
 
-    item.innerHTML = clubEvents[i]
-    cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage();"> Manage Event </button>'
-    button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage();"> Engage in Event </button>'
+  cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "create();"> Create Event </button>'
+  button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage();"> Engage in Event </button>'
+
+  firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
+    clubID = Object.keys(snapshot.val())
+
+    clubEvents = []
+    for (i = 0; i < clubID.length; i++ ){
+      console.log(snapshot.val()[clubID[i]]['events'])
+      for (j = 0; j< snapshot.val()[clubID[i]]['events'].length; j++){
+        console.log(snapshot.val()[clubID[i]]['events'][j])
+        if (typeof snapshot.val()[clubID[i]]['events'][j] !== 'undefined'){
+        clubEvents.push(Object.values(snapshot.val()[clubID[i]]['events'][j])[0])
+        eventid = j+1
+    }}console.log(clubEvents)
+    }
+
+    for (i = 0; i< clubEvents.length; i++){
+      var line1 = table.insertRow(1)
+      var item = line1.insertCell()
+      var button = line1.insertCell()
+      var cost = line1.insertCell(1)
+
+      item.innerHTML = clubEvents[i]['event']
+      cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage();"> Manage Event </button>'
+      button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage('.concat(String(i)).concat(');"> Engage in Event </button>')
 
 
+  }})
 
+}
 
-  }
+load()
 
-})
-
+function create(){
+  var name = prompt('Create the name of the event', 'Event')
+  var location = prompt('Where is the event?', "Mars")
+  var info = prompt('Brief info', 'PLS DONATE')
+  //addNewEvent(uid, eid, eventName, location, body)
+  addNewEvent(123, eventid, name, location, info)
+  console.log('did something')
+  eventid +=1
+  load()
+}
 
 var config = {
   apiKey: "AIzaSyB53tt3mrTkPnBuP4NWQiy5ynKjXxlmxW0",
@@ -55,12 +79,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//create database
 var database = firebase.database();
 
-//console.log("hello");
-
-//update users
 function addNewUser(uid, username, tag, body) {
   // A post entry.
   var postData = {
@@ -89,7 +109,6 @@ function addItem(eid, item, price){
 
 }
 
-//update events
 function addNewEvent(uid, eid, eventName, location, body) {
   //uid -> user id
   //eid -> event id
@@ -111,4 +130,12 @@ function addNewEvent(uid, eid, eventName, location, body) {
   updates['/user-posts/' + uid + '/events/' + eid + '/' + newPostKey] = postDataE;
 
   return firebase.database().ref().update(updates);
+}
+
+function manage(){
+  console.log('apple')
+  // firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
+  //   clubID = Object.keys(snapshot.val())
+  //   console.log(snapshot.val()[123]['events'][id])
+  // })
 }
