@@ -49,7 +49,7 @@ function load(){
       item.innerHTML = clubEvents[i]['event']
       k = i+1
       cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage1('.concat(String(k)).concat( ');"> Manage Event </button>')
-      button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage('.concat(String(k)).concat(');"> Engage in Event </button>')
+      button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage1('.concat(String(k)).concat(');"> Engage in Event </button>')
 
 
   }})
@@ -133,4 +133,9 @@ function manage1(id){
     updates['/user-posts/' + 123 + '/events/' + id + '/' + 'items' + '/'+ name1] = num
     return firebase.database().ref().update(updates)
   })
+}
+
+function engage1  (id){
+  localStorage.setItem('eventNumber', id)
+  document.location.href = 'clubSideEvent.html'
 }

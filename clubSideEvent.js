@@ -1,54 +1,10 @@
-var  table = document.getElementById('toPopulate')
-
 //From DataBase recall the items and the prices
-function IDed(){
-  // print(4)
-  var id = document.getElementById('IDNum').value
-  var unneeded = document.getElementById('getId')
-  var reset = document.getElementById('Welcome')
-  var line1 = table.insertRow(-1)
-  var item = line1.insertCell()
-  var cost = line1.insertCell()
-  var button = line1.insertCell()
-  var viewer = document.getElementById('tests')
-  var viewerP = document.getElementById('test')
-  var title = document.getElementsByClassName('title')
-  var idRow = document.getElementById('baseRow')
+var table = document.getElementById('table1')
+var evventNumber = localStorage.getItem('eventNumber')
+var priceT = document.getElementById('totalPrice')
+var total = 0
+var soldIndex = {}
 
-  idRow.innerHTML = '<td>Item</td><td>Price</td><td></td>'
-  unneeded.innerHTML = ''
-  reset.innerHTML = 'Welcome club number ' + String(id)
-  title.innerHTML = 'Add Items To Your Club Event'
-
-  var rows = document.getElementById('toPopulate').getElementsByTagName("tr").length
-  if (rows >0){
-  item.innerHTML = '<input id = "itemName"></input>'
-  cost.innerHTML = '<input id = "itemPrice" type = "number"></input>'
-  button.innerHTML = '<button class = "addToEvent" type = "button" onclick = "add();"> Add To Event </button>'
-  }
-  else{
-    //Import the item and prices
-    button.innerHTML = '<button class = "addToEvent" type = "button" onclick = "minus();"> Remove From Event </button>'
-  }
-}
-
-
-
-function add(){
-  //push to firebase
-  var itemName = document.getElementById('itemName').value
-  var itemPrice = document.getElementById('itemPrice').value
-
-  //reload from firebase
-}
-
-function minus(item){
-  //remove the item
-}
-
-function test(){
-  print(4)
-}
 
 var config = {
   apiKey: "AIzaSyB53tt3mrTkPnBuP4NWQiy5ynKjXxlmxW0",
@@ -62,6 +18,40 @@ firebase.initializeApp(config);
 
 //create database
 var database = firebase.database();
+function load(){
+firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
+  items = snapshot.val()[123]['events'][1]['items']
+  selling = Object.keys(items)
+  price = Object.values(items)
+  for (i = 0; i<selling.length; i++){
+    var line1 = table.insertRow(1)
+    var item = line1.insertCell()
+    var button = line1.insertCell()
+    var cost = line1.insertCell(1)
+    item.innerHTML = selling[i]
+    cost.innerHTML = price[i]
+    innerString = String(price[i]).concat(',\'').concat(selling[i]).concat('\'')
+    button.innerHTML = '<button class = "addToCart" type = "button" onclick = "toCart('.concat(innerString).concat(');"> Add to Kart </button>')
+  }
+})
+}
+
+function toCart(pricey, sold){
+  total += pricey
+  console.log(total);
+  priceT.innerHTML = String(total)
+  addOne(sold)
+}
+
+function addOne(sold){
+  if (sold in soldIndex){
+    soldIndex[sold] ++
+  }
+  else{
+    soldIndex[sold] = 1
+  }
+  console.log(soldIndex);
+}
 
 //console.log("hello");
 
@@ -117,5 +107,6 @@ function addNewEvent(uid, eid, eventName, location, body) {
 
   return firebase.database().ref().update(updates);
 }
-addNewUser(123, "Red Cross", "Advocates for Humanitarian Aid", "We encourage everyone to donate to us or volunteer with us to promote humanitarian aid in the world!");
-addNewEvent(123, 1, "Fundraiser for a Hurriacane", "Caltech", "Please donate to help people affected by devestating hurricanes. Check out our pre-order page for more ways you can help us and donate.")
+// addNewUser(123, "Red Cross", "Advocates for Humanitarian Aid", "We encourage everyone to donate to us or volunteer with us to promote humanitarian aid in the world!");
+// addNewEvent(123, 1, "Fundraiser for a Hurriacane", "Caltech", "Please donate to help people affected by devestating hurricanes. Check out our pre-order page for more ways you can help us and donate.")
+load()
