@@ -7,4 +7,4 @@ var button = line1.insertCell()
 
 item.innerHTML = 'Popcorn Chicken'
 cost.innerHTML = '$1.5'
-button.innerHTML = 'Button'
+button.innerHTML = '<button class = "addToCart" type = "button"> Add To Cart </button>'
