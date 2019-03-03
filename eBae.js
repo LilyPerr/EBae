@@ -24,7 +24,7 @@ function load(){
   var cost = line1.insertCell(1)
 
   cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "create();"> Create Event </button>'
-  button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage();"> Engage in Event </button>'
+  //button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage();"> Engage in Event </button>'
 
   firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
     clubID = Object.keys(snapshot.val())
