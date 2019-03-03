@@ -1,5 +1,5 @@
 
-var eventid = 3
+var eventid = 1
 var stuff = document.getElementById('racistMF')
 var table = document.getElementById('table1')
 var itemsInCart = document.getElementById('numItems')
@@ -12,7 +12,6 @@ manage.innerHTML = 'Manage Event' // link to event management page
 
 
 function load(){
-  
   var x = table.rows.length
   while (x > 1){
     table.deleteRow(-1)
@@ -32,13 +31,13 @@ function load(){
 
     clubEvents = []
     for (i = 0; i < clubID.length; i++ ){
-      console.log(snapshot.val()[clubID[i]]['events'])
+      //console.log(snapshot.val()[clubID[i]]['events'])
       for (j = 0; j< snapshot.val()[clubID[i]]['events'].length; j++){
-        console.log(snapshot.val()[clubID[i]]['events'][j])
+        //console.log(snapshot.val()[clubID[i]]['events'][j])
         if (typeof snapshot.val()[clubID[i]]['events'][j] !== 'undefined'){
         clubEvents.push(Object.values(snapshot.val()[clubID[i]]['events'][j])[0])
         eventid = j+1
-    }}console.log(clubEvents)
+    }}//console.log(clubEvents)
     }
 
     for (i = 0; i< clubEvents.length; i++){
@@ -48,16 +47,14 @@ function load(){
       var cost = line1.insertCell(1)
 
       item.innerHTML = clubEvents[i]['event']
-      cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage();"> Manage Event </button>'
-      button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage('.concat(String(i)).concat(');"> Engage in Event </button>')
+      k = i+1
+      cost.innerHTML = '<button class = "addToCart" type = "button" onclick = "manage1('.concat(String(k)).concat( ');"> Manage Event </button>')
+      button.innerHTML = '<button class = "addToCart" type = "button" onclick = "engage('.concat(String(k)).concat(');"> Engage in Event </button>')
 
 
   }})
-
 }
-
 load()
-
 function create(){
   var name = prompt('Create the name of the event', 'Event')
   var location = prompt('Where is the event?', "Mars")
@@ -101,13 +98,6 @@ function addNewUser(uid, username, tag, body) {
   return firebase.database().ref().update(updates);
 }
 
-function addItem(eid, item, price){
-  firebase.database().ref('eventID/' + eid).set({
-    item: price
-  })
-  test();
-
-}
 
 function addNewEvent(uid, eid, eventName, location, body) {
   //uid -> user id
@@ -118,7 +108,7 @@ function addNewEvent(uid, eid, eventName, location, body) {
     user: uid,
     eventID: eid,
     location: location,
-    info: body
+    info: body,
   };
 
   // Get a key for a new Post.
@@ -132,10 +122,15 @@ function addNewEvent(uid, eid, eventName, location, body) {
   return firebase.database().ref().update(updates);
 }
 
-function manage(){
+function manage1(id){
   console.log('apple')
-  // firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
-  //   clubID = Object.keys(snapshot.val())
-  //   console.log(snapshot.val()[123]['events'][id])
-  // })
+  firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
+    var name1 = prompt('Name of the thing to sell', 'boba')
+    var num = parseInt(prompt('Enter a Price', '0'))
+
+    a = snapshot.val()[123]['events'][id]
+    var updates = {}
+    updates['/user-posts/' + 123 + '/events/' + id + '/' + 'items' + '/'+ name1] = num
+    return firebase.database().ref().update(updates)
+  })
 }
