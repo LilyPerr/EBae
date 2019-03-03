@@ -1,4 +1,3 @@
-
 var eventid = 1
 var stuff = document.getElementById('racistMF')
 var table = document.getElementById('table1')
@@ -54,6 +53,7 @@ function load(){
 
   }})
 }
+
 load()
 function create(){
   var name = prompt('Create the name of the event', 'Event')
@@ -61,7 +61,6 @@ function create(){
   var info = prompt('Brief info', 'PLS DONATE')
   //addNewEvent(uid, eid, eventName, location, body)
   addNewEvent(123, eventid, name, location, info)
-  console.log('did something')
   eventid +=1
   load()
 }
@@ -123,10 +122,31 @@ function addNewEvent(uid, eid, eventName, location, body) {
 }
 
 function manage1(id){
-  console.log('apple')
   firebase.database().ref('/user-posts/').once('value').then(function(snapshot){
     var name1 = prompt('Name of the thing to sell', 'boba')
     var num = parseInt(prompt('Enter a Price', '0'))
+
+    const url = "http://localhost:3000/sell"
+    fetch(url, {
+      method: "POST",
+      headers: {
+        'Authorization': "Basic S2V2aW5GYW4tRWJhZS1QUkQtOTE2ZGU1NmRjLWExMjk5YmZmOlBSRC0xNmRlNTZkYzMzOGItYWIwNy00ZjAzLWI2OGEtM2UyNw==",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify({
+        location:"every college road",
+        info:"our club fundraiser",
+        name:name1,
+        price:num
+      })
+    }).then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+    }).catch(err => {
+      console.log(err)
+    })
+
 
     a = snapshot.val()[123]['events'][id]
     var updates = {}

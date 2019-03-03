@@ -12,28 +12,27 @@
     <h1 style="color:#555">
       Login
     </h1>
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
     <form class="login-form">
       <input type="text" placeholder="username"/>
       <input type="password" placeholder="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
-    </form>
+      <button onclick="oAuth()"><a href="eBae.html">login</a></button>
+      <p class="message">Not registered? <a href="/">Create an account</a></p>
+      <p class="message">Event Organizer? <a href="login2.html">Login here</a></p>
   </div>
 </div>
 <script>
 function sketchlogin(username){
   localStorage.setItem("username", username);
 }
-function switch(){
 
+function oAuth(){
+  var url = "http://localhost:3000/auth"
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", url, true); // false for synchronous request
+  xmlHttp.send(null );
 }
+oAuth()
+
 </script>
 </body>
 </html>
