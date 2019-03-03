@@ -1,0 +1,23 @@
+<html>
+<head>
+</head>
+<body>
+<script>
+uri = "https://api.ebay.com/sell/account/v1/fulfillment_policy/"
+
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        // alert(xhr.responseText);
+        var text = xhr.responseText;
+        document.getElementById("asdfkl");
+
+    }
+}
+var params = 'redemptionCode=whatyouwantittobe&asdf=asdf';
+uri += params;
+xhr.open('POST', uri, true);
+xhr.send(null);
+</script>
+</body>
+</html>
