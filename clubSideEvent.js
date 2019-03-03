@@ -38,6 +38,7 @@ function add(){
   //push to firebase
   var itemName = document.getElementById('itemName').value
   var itemPrice = document.getElementById('itemPrice').value
+
   //reload from firebase
 }
 
