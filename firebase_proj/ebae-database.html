@@ -1,14 +1,44 @@
+<html>
+  <head>
+  </head>
+  <body>
+  </body>
+  <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyClyZj_UxzsbUAY2MQtgkjjMundOo-edro",
+      authDomain: "ebae-s.firebaseapp.com",
+      databaseURL: "https://ebae-s.firebaseio.com",
+      projectId: "ebae-s",
+      storageBucket: "ebae-s.appspot.com",
+      messagingSenderId: "502038272237"
+    };
+    firebase.initializeApp(config);
+    
+    //create database
+    var database = firebase.database();
+    console.log("hello");
+    //user data
+    function writeUserData(userId, name, email, imageUrl) {
+      firebase.database().ref('users/' + userId).set({
+        username: name,
+        email: email,
+        profile_picture : imageUrl
+      });
+    }
 
-<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyClyZj_UxzsbUAY2MQtgkjjMundOo-edro",
-    authDomain: "ebae-s.firebaseapp.com",
-    databaseURL: "https://ebae-s.firebaseio.com",
-    projectId: "ebae-s",
-    storageBucket: "ebae-s.appspot.com",
-    messagingSenderId: "502038272237"
-  };
-  firebase.initializeApp(config);
-</script>
+    //event data
+    function writeEventData(userId, eventId, timeSelling, location, details) {
+     firebase.database().ref('users/' + userId + '/events/' + eventId).set({
+      timeSelling: timeSelling,
+      location: location,
+      details: details
+    });
+  } 
+
+  writeUserData(123, "tester", "test@gmail.com", "url.com");
+  writeEventData(123, 1231, "march 3", "Caltech", "bring cash only!");
+
+  </script>
+</html>
