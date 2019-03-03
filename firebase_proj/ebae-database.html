@@ -3,42 +3,73 @@
   </head>
   <body>
   </body>
-  <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
-  <script>
-    // Initialize Firebase
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyClyZj_UxzsbUAY2MQtgkjjMundOo-edro",
-      authDomain: "ebae-s.firebaseapp.com",
-      databaseURL: "https://ebae-s.firebaseio.com",
-      projectId: "ebae-s",
-      storageBucket: "ebae-s.appspot.com",
-      messagingSenderId: "502038272237"
+      apiKey: "AIzaSyB53tt3mrTkPnBuP4NWQiy5ynKjXxlmxW0",
+      authDomain: "ebae-adb6d.firebaseapp.com",
+      databaseURL: "https://ebae-adb6d.firebaseio.com",
+      projectId: "ebae-adb6d",
+      storageBucket: "",
+      messagingSenderId: "860609061345"
     };
     firebase.initializeApp(config);
     
     //create database
     var database = firebase.database();
-    console.log("hello");
-    //user data
-    function writeUserData(userId, name, email, imageUrl) {
-      firebase.database().ref('users/' + userId).set({
-        username: name,
-        email: email,
-        profile_picture : imageUrl
-      });
+
+    //console.log("hello");
+
+    //update users
+    function addNewUser(uid, username, tag, body) {
+      // A post entry.
+      var postData = {
+        club: username,
+        user: uid,
+        tagLine: tag,
+        info: body
+      };
+
+      // Get a key for a new Post.
+      var newPostKey = firebase.database().ref().child('posts').push().key;
+
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      var updates = {};
+      //updates['/posts/' + newPostKey] = postData;
+      updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+      return firebase.database().ref().update(updates);
     }
 
-    //event data
-    function writeEventData(userId, eventId, timeSelling, location, details) {
-     firebase.database().ref('users/' + userId + '/events/' + eventId).set({
-      timeSelling: timeSelling,
-      location: location,
-      details: details
-    });
-  } 
 
-  writeUserData(123, "tester", "test@gmail.com", "url.com");
-  writeEventData(123, 1231, "march 3", "Caltech", "bring cash only!");
+    //update events
+    function addNewEvent(uid, eid, eventName, location, body) {
+      // A post entry.
+      var postDataE = {
+        event: eventName,
+        user: uid,
+        eventID: eid,
+        location: location,
+        info: body
+      };
+
+      // Get a key for a new Post.
+      var newPostKey = firebase.database().ref().child('posts').push().key;
+
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      var updates = {};
+      //updates['/posts/' + newPostKey] = postData;
+      updates['/user-posts/' + uid + '/events/' + eid + '/' + newPostKey] = postDataE;
+
+      return firebase.database().ref().update(updates);
+    }
+
+  //add a new club: Red Cross
+  addNewUser(123, "Red Cross", "Advocates for Humanitarian Aid", "We encourage everyone to donate to us or volunteer with us to promote humanitarian aid in the world!");
+
+  //add a new event for Red Cross
+  addNewEvent(123, 1, "Fundraiser for a Hurriacane", "Caltech", "Please donate to help people affected by devestating hurricanes. Check out our pre-order page for more ways you can help us and donate.")
 
   </script>
 </html>
