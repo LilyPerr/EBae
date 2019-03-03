@@ -117,3 +117,5 @@ function addNewEvent(uid, eid, eventName, location, body) {
 
   return firebase.database().ref().update(updates);
 }
+addNewUser(123, "Red Cross", "Advocates for Humanitarian Aid", "We encourage everyone to donate to us or volunteer with us to promote humanitarian aid in the world!");
+addNewEvent(123, 1, "Fundraiser for a Hurriacane", "Caltech", "Please donate to help people affected by devestating hurricanes. Check out our pre-order page for more ways you can help us and donate.")
