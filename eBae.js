@@ -8,7 +8,7 @@ var items = 0
 
 
 var manage = row.insertCell(1)
-manage.innerHTML = 'Manage Event' // link to event management page
+manage.innerHTML = '<h4>Manage Event</h4>' // link to event management page
 
 
 function load(){
