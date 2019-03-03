@@ -2,20 +2,24 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Add Items To Your Club Event</title>
+    <div id="getId">
+      <label>Input club ID</label>
+      <input type="text" id="IDNum" type = 'number'>
+      <button type="button" name="submitID" onclick = "IDed();">Submit ID</button>
+    </div>
+    <h2 id = 'Welcome'></h2>
+    <title class = 'title'></title>
   </head>
   <body>
     <table id = 'toPopulate'>
-      <tr>
-        <td>Item</td>
-        <td>Price</td>
-        <td></td>
+      <tr id = 'baseRow'>
+
       </tr>
     </table>
     <p id = 'tests'></p>
     <p id = 'test'></p>
   </body>
-  <script src="clubSideEvent.js">
+  <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+  <script src="clubSideEvent.js">  </script>
 
-  </script>
 </html>
